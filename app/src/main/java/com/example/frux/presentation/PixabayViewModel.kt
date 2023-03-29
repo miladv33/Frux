@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PixabayViewModel @Inject constructor(
-    private val pixabayUseCase: PixabayUseCase, private val showErrorDelegate: ShowErrorDelegate
+    private val pixabayUseCase: PixabayUseCase,
+    private val showErrorDelegate: ShowErrorDelegate
 ) : ViewModel(), ShowErrorDelegate by showErrorDelegate {
     private val _pixabayImageLiveData = MutableLiveData<PixabayImage>()
     val pixabayImageLiveData: LiveData<PixabayImage> = _pixabayImageLiveData
