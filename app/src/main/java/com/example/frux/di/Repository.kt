@@ -1,5 +1,6 @@
 package com.example.frux.di
 
+import com.example.frux.data.local.dao.HitDao
 import com.example.frux.data.map.mappers.PixarImageMapper
 import com.example.frux.data.remote.service.PixabayService
 import com.example.frux.data.repository.PixabayImageRepository
@@ -17,8 +18,9 @@ object Repository {
     @Provides
     fun providePixabayRepository(
         pixabayService: PixabayService,
-        pixarImageMapper: PixarImageMapper
+        pixarImageMapper: PixarImageMapper,
+        dao: HitDao
     ): IBaseRepository.PixabayImageRepository {
-        return PixabayImageRepository(pixabayService, pixarImageMapper)
+        return PixabayImageRepository(pixabayService, pixarImageMapper, dao)
     }
 }

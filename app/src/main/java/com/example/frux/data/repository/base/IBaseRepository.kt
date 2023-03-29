@@ -6,4 +6,9 @@ interface IBaseRepository {
     abstract class PixabayImageRepository() {
         abstract suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage>
     }
+
+    abstract class PixarImageRepository {
+
+        abstract suspend fun savePixarImages(searchKey: String, imageType: String)
+    }
 }

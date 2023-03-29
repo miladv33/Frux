@@ -1,18 +1,26 @@
 package com.example.frux.data.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.frux.data.model.base.Model
-import com.example.frux.data.remote.model.HitDTO
 
+@Entity(tableName = "hits")
 data class Hit(
+    @PrimaryKey
+    val id: Int,
     val comments: Int,
     val downloads: Int,
-    val id: Int,
+    @ColumnInfo(name = "large_image_url")
     val largeImageURL: String,
     val likes: Int,
+    @ColumnInfo(name = "preview_height")
     val previewHeight: Int,
     val tags: String,
     val user: String,
+    @ColumnInfo(name = "user_image_url")
     val userImageURL: String,
+    @ColumnInfo(name = "user_id")
     val user_id: Int,
     val views: Int,
 ):Model()
