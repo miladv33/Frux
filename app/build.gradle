@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-//    id 'dagger.hilt.android.plugin'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -15,6 +15,9 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        buildConfigField("String", "BASE_URL", base_url)
+        buildConfigField("String", "API_KEY", api_key)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -46,9 +49,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-//    hilt {
-//        enableTransformForLocalTests = true
-//    }
+    hilt {
+        enableTransformForLocalTests = true
+    }
     kapt {
         correctErrorTypes true
     }
