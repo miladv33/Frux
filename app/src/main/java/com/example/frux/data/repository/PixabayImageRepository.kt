@@ -16,8 +16,8 @@ class PixabayImageRepository @Inject constructor(
     private val pixarImageMapper: PixarImageMapper
 ) : IBaseRepository.PixabayImageRepository() {
 
-    override suspend fun searchImage(q: String, imageType: String): Result<PixabayImage> {
-        val searchedImage = pixabayService.getImages(query = q, imageType = imageType)
+    override suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage> {
+        val searchedImage = pixabayService.getImages(query = searchKey, imageType = imageType)
         return pixarImageMapper.map(searchedImage)
     }
 }
