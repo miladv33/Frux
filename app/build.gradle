@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+//    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -44,20 +46,92 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+//    hilt {
+//        enableTransformForLocalTests = true
+//    }
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
+    implementation "androidx.activity:activity-compose:$activity_compose_version"
+    implementation 'androidx.paging:paging-common-ktx:3.1.1'
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$test_ext_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    //hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    //robolectric
+    testImplementation "org.robolectric:robolectric:$robolectric_version"
+
+    // testImplementation for pure JVM unit tests
+    testImplementation "org.jetbr ains.kotlinx:kotlinx-coroutines-test:$jetbrains_coroutines_test_version"
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    // GSON
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+
+    //make test flow easy
+    testImplementation "app.cash.turbine:turbine:$turbine_version"
+    //make test livedata easy
+    testImplementation "com.jraska.livedata:testing-ktx:$jraska_livedata_version"
+
+    //lot better testing assertion than default junit assertion
+    testImplementation "com.google.truth:truth:$google_truth_version"
+
+    // mockito
+    testImplementation "org.mockito:mockito-core:$mockito_core_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_android_version"
+    testImplementation("org.mockito:mockito-inline:$mockito_inline_version")
+    androidTestImplementation "androidx.arch.core:core-testing:$androidx_arch_core_testing_version"
+
+    //add observer as state
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_runtime_version"
+
+    //room
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
+    androidTestImplementation "androidx.work:work-testing:$workVersion"
+
+    //compose navigation
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+    // Compose ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$compose_viewmodel_version"
+    // for inject viewModel in composable functions
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_viewmode_version"
+
+    implementation("io.coil-kt:coil-compose:$coil_version")
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$reflection_version"
+
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$compose_version")
+// Needed for createComposeRule, but not createAndroidComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
+    testImplementation 'org.mockito:mockito-inline:4.0.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
 }
