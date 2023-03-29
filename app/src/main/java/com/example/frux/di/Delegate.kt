@@ -2,6 +2,8 @@ package com.example.frux.di
 
 import com.example.frux.data.map.delegate.failedlistmap.FailedListMapperDelegateImpl
 import com.example.frux.data.map.delegate.failedmap.FailedMapperDelegateImpl
+import com.example.frux.presentation.delegate.error.ShowDialogDelegateImpl
+import com.example.frux.presentation.delegate.error.ShowErrorDelegate
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +20,10 @@ object Delegate {
     @Provides
     fun provideFailedListMapperDelegateImpl(): FailedListMapperDelegateImpl {
         return FailedListMapperDelegateImpl()
+    }
+
+    @Provides
+    fun provideShowErrorDelegate(): ShowErrorDelegate {
+        return ShowDialogDelegateImpl()
     }
 }
