@@ -38,6 +38,4 @@ object AppModule {
             .build()
     }
 
-
-
 }
