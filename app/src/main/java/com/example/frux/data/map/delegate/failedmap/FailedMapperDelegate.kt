@@ -1,4 +1,4 @@
-package com.example.frux.data.mapper.delegate.failedmap
+package com.example.frux.data.map.delegate.failedmap
 
 
 /**

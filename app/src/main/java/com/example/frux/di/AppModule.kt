@@ -2,6 +2,7 @@ package com.example.frux.di
 
 import com.example.frux.BuildConfig
 import com.example.frux.data.remote.ApiKeyInterceptor
+import com.example.frux.data.remote.service.PixabayService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +37,12 @@ object AppModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePixabayService(retrofit: Retrofit): PixabayService {
+        return retrofit.create(PixabayService::class.java)
     }
 
 }

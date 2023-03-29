@@ -1,9 +1,9 @@
-package com.example.frux.data.mapper.base
+package com.example.frux.data.map.base
 
 import com.example.frux.data.enum.Error
-import com.example.frux.data.mapper.delegate.failedmap.FailedMapperDelegate
-import com.example.frux.data.model.CustomException
-import com.example.frux.data.model.Model
+import com.example.frux.data.map.delegate.failedmap.FailedMapperDelegate
+import com.example.frux.data.model.base.CustomException
+import com.example.frux.data.model.base.Model
 import retrofit2.Response
 
 /**

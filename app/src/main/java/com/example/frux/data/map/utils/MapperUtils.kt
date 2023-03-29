@@ -1,4 +1,4 @@
-package com.example.frux.data.mapper.utils
+package com.example.frux.data.map.utils
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter

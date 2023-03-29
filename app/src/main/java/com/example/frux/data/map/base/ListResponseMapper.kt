@@ -1,6 +1,6 @@
-package com.example.frux.data.mapper.base
+package com.example.frux.data.map.base
 
-import com.example.frux.data.model.Model
+import com.example.frux.data.model.base.Model
 
 
 /**
