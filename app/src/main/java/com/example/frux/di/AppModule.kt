@@ -2,6 +2,7 @@ package com.example.frux.di
 
 import com.example.frux.BuildConfig
 import com.example.frux.data.remote.ApiKeyInterceptor
+import com.example.frux.data.remote.BASE_URL
 import com.example.frux.data.remote.service.PixabayService
 import dagger.Module
 import dagger.Provides
@@ -32,11 +33,12 @@ object AppModule {
     @Provides
     @Singleton
     fun provideQuotableServerRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+        val build = Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+        return build
     }
 
     @Provides
