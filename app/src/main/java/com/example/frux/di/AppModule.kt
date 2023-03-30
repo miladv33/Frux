@@ -33,12 +33,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideQuotableServerRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val build = Retrofit.Builder()
+        return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        return build
     }
 
     @Provides
