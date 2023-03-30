@@ -23,4 +23,5 @@ data class Hit(
     @ColumnInfo(name = "user_id")
     val user_id: Int,
     val views: Int,
+    var searchedKey :String? = null
 ):Model()

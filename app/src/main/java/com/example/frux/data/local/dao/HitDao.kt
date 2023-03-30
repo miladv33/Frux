@@ -24,6 +24,6 @@ interface HitDao {
     fun getAll(): List<Hit>
 
     // Get all hits whose tag contains a given string
-    @Query("SELECT * FROM hits WHERE tags LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM hits WHERE searchedKey LIKE '%' || :query || '%'")
     fun findByTag(query: String): List<Hit>
 }

@@ -9,10 +9,10 @@ interface IBaseRepository {
         abstract suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage>
        abstract suspend fun getImagesFromServer(searchKey: String, imageType: String): Result<PixabayImage>
 
-        abstract suspend fun saveImagesToDatabase(hits: Result<PixabayImage>)
+        abstract suspend fun saveImagesToDatabase(searchKey: String, hits: Result<PixabayImage>)
         abstract fun getPixarImages(): Flow<List<Hit>>
         abstract fun getPixarImage(id: Int): Flow<Hit>
-        abstract fun findPixarImagesByTag(query: String): Flow<List<Hit>>
+        abstract fun findPixarImagesByTag(tag: String): Flow<PixabayImage>
     }
 
     abstract class PixarImageRepository {

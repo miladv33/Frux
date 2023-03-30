@@ -22,7 +22,7 @@ class PixabayImageRepository @Inject constructor(
 
     override suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage> {
         val searchedImage = getImagesFromServer(searchKey, imageType)
-        saveImagesToDatabase(searchedImage)
+        saveImagesToDatabase(searchKey, searchedImage)
         return searchedImage
     }
 
@@ -34,7 +34,8 @@ class PixabayImageRepository @Inject constructor(
         return pixarImageMapper.map(images)
     }
 
-    override suspend fun saveImagesToDatabase(hits: Result<PixabayImage>) {
+    override suspend fun saveImagesToDatabase(searchKey: String, hits: Result<PixabayImage>) {
+        hits.getOrNull()?.hits?.map { it.searchedKey = searchKey }
         hits.getOrNull()?.hits?.let { hitDao.insertAll(it) }
     }
 
@@ -44,13 +45,15 @@ class PixabayImageRepository @Inject constructor(
     }
 
     // Get a pixarImage by its id from the database as a Flow object
-    override fun getPixarImage(id: Int)= flow {
+    override fun getPixarImage(id: Int) = flow {
         emit(hitDao.get(id))
     }
 
     // Get all pixarImages whose tag contains a given string from the database as a Flow object
     override fun findPixarImagesByTag(tag: String) = flow {
-        emit(hitDao.findByTag(tag))
+        val findByTag = hitDao.findByTag(tag)
+        val pixabayImage = PixabayImage(findByTag)
+        emit(pixabayImage)
     }
 
 }

@@ -36,5 +36,4 @@ class PixabayViewModel @Inject constructor(
                 }
         }
     }
-
 }
