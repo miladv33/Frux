@@ -1,5 +1,6 @@
 package com.example.frux.ui.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -10,11 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -22,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -29,17 +28,37 @@ import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 import com.example.frux.ui.ArcRotationAnimation
+import com.example.frux.ui.ModalBottomSheetDemo
+import kotlinx.coroutines.*
 
-@OptIn(ExperimentalComposeUiApi::class)
+@SuppressLint("CoroutineCreationDuringComposition")
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     // Launch a coroutine to call searchImage only once
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
+    ModalBottomSheetDemo(bottomSheetState) {
+        SearchPage(keyboardController, pixabayViewModel, bottomSheetState)
+    }
+
+}
+
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
+@Composable
+private fun SearchPage(
+    keyboardController: SoftwareKeyboardController?,
+    pixabayViewModel: PixabayViewModel,
+    bottomSheetState: ModalBottomSheetState
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
+
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("cat", Type.PHOTO.type)
     }
-    val keyboardController = LocalSoftwareKeyboardController.current
 
-    val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
     Column {
         SearchInput {
             keyboardController?.hide()
@@ -47,9 +66,18 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         images.value?.hits?.let {
-            ImageGridList(it)
+            ImageGridList(it){
+                coroutineScope.launch {
+                    bottomSheetState.show()
+                }
+            }
         }.run {
-            Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
                 ArcRotationAnimation()
             }
         }
@@ -110,7 +138,7 @@ fun SearchInput(
 }
 
 @Composable
-fun ImageGridList(imageUrls: List<Hit>) {
+fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL:String) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -123,7 +151,7 @@ fun ImageGridList(imageUrls: List<Hit>) {
         ) {
             items(imageUrls.size) { index ->
                 imageItem(imageUrls[index].previewURL) {
-
+                    onClick.invoke(it)
                 }
             }
         }
