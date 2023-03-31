@@ -14,8 +14,8 @@ data class Hit(
     @ColumnInfo(name = "large_image_url")
     val largeImageURL: String,
     val likes: Int,
-    @ColumnInfo(name = "preview_height")
-    val previewHeight: Int,
+    @ColumnInfo(name = "preview_url")
+    val previewURL: String,
     val tags: String,
     val user: String,
     @ColumnInfo(name = "user_image_url")

@@ -21,7 +21,7 @@ class PixarImageMapper @Inject constructor(override val failedMapperDelegate: Fa
                 id = hitDTO.id,
                 largeImageURL = hitDTO.largeImageURL,
                 likes = hitDTO.likes,
-                previewHeight = hitDTO.previewHeight,
+                previewURL = hitDTO.previewURL,
                 tags = hitDTO.tags,
                 user = hitDTO.user,
                 userImageURL = hitDTO.userImageURL,
