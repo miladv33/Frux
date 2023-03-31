@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -17,10 +18,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -28,16 +33,20 @@ import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     // Launch a coroutine to call searchImage only once
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("cat", Type.PHOTO.type)
     }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
     Column {
         SearchInput {
-            pixabayViewModel.searchImage(it,Type.PHOTO.type)
+            keyboardController?.hide()
+            pixabayViewModel.searchImage(it, Type.PHOTO.type)
         }
         Spacer(modifier = Modifier.height(8.dp))
         images.value?.hits?.let {
@@ -82,7 +91,7 @@ fun SearchInput(
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
             ),
-            singleLine = true
+            singleLine = true,
         )
 
         IconButton(
@@ -99,7 +108,6 @@ fun SearchInput(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ImageGridList(imageUrls: List<Hit>) {
     Column(
@@ -141,5 +149,6 @@ private fun imageItem(
                 .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
     }
 }
