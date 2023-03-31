@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
@@ -40,49 +41,81 @@ fun ButtonSheet(hit: Hit) {
             contentScale = ContentScale.Crop,
             modifier = modifier,
         )
-        // Display the views in the top right corner
-        Text(
-            text = hit.views.toString(),
-            color = Color.White,
+        BlackBox(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(8.dp)
-                .background(Color.Black, shape = CircleShape)
-        )
+                .padding(top = 8.dp)
+                .width(100.dp)
+                .height(50.dp)
+        ) {
+            Text(
+                text = hit.views.toString(),
+                color = Color.White,
+            )
+        }
+        // Display the views in the top right corner
         // Display the user image in the top left corner
         val userPainter = rememberAsyncImagePainter(hit.userImageURL)
         Image(
             painter = userPainter,
             contentDescription = null,
             modifier = Modifier
-                .size(32.dp)
+                .size(64.dp)
                 .align(Alignment.TopStart)
                 .padding(8.dp)
                 .clip(CircleShape)
                 .border(2.dp, Color.White, shape = CircleShape)
         )
-        // Display the preview URL as a clickable link in the bottom left corner
         val context = LocalContext.current
-        Text(
-            text = hit.previewURL,
-            color = Color.Blue,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(8.dp)
-                .clickable {
-                    // Open the preview URL in a browser
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(hit.largeImageURL))
-                    context.startActivity(intent)
-                }
-        )
+        BlackBox(modifier = Modifier
+            .align(Alignment.BottomStart)
+            .padding(8.dp)
+            .height(50.dp)
+            .clickable {
+                // Open the preview URL in a browser
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(hit.largeImageURL))
+                context.startActivity(intent)
+            }
+        ) {
+            Text(
+                text = hit.previewURL,
+                color = Color.Blue,
+                maxLines = 1
+            )
+        }
+        // Display the preview URL as a clickable link in the bottom left corner
         // Display the likes in the bottom right corner
-        Text(
-            text = hit.likes.toString(),
-            color = Color.White,
+        BlackBox(
             modifier = Modifier
+                .height(50.dp)
+                .width(80.dp)
                 .align(Alignment.BottomEnd)
                 .padding(8.dp)
-                .background(Color.Red, shape = CircleShape)
-        )
+        ) {
+            Text(
+                text = hit.likes.toString(),
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+        }
     }
+}
+
+@Composable
+fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        // Create a modifier for the box size and shape
+        val boxModifier = Modifier
+            .size(90.dp)
+            .clip(RoundedCornerShape(8.dp))
+        // Create a box with a black background with 0.4 alpha
+        Box(
+            modifier = boxModifier.background(Color.Black.copy(alpha = 0.4f)),
+            contentAlignment = Alignment.Center
+        ) {
+            // Display the content inside the box
+            content()
+        }
+    }
+
 }
