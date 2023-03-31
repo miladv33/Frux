@@ -28,6 +28,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
+import com.example.frux.ui.ArcRotationAnimation
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -49,7 +50,7 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
             ImageGridList(it)
         }.run {
             Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                ArcRotationAnimation()
             }
         }
     }
