@@ -21,10 +21,9 @@ class PixabayViewModel @Inject constructor(
 ) : ViewModel(), ShowErrorDelegate by showErrorDelegate {
     private val _pixabayImageLiveData = MutableLiveData<PixabayImage>()
     val pixabayImageLiveData: LiveData<PixabayImage> = _pixabayImageLiveData
-
-
     fun searchImage(searchKey: String, imageType: String) {
         viewModelScope.launch {
+            _pixabayImageLiveData.value = null
             pixabayUseCase.searchImage(searchKey, imageType).flowOn(Dispatchers.IO).take(2)
                 .collect {
                     it.onSuccess { searchedImage ->
