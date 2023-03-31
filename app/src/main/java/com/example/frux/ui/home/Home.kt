@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,14 +30,19 @@ import com.example.frux.presentation.PixabayViewModel
 
 @Composable
 fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
-    pixabayViewModel.searchImage("cat", Type.PHOTO.type)
+    // Launch a coroutine to call searchImage only once
+    LaunchedEffect(Unit) {
+        pixabayViewModel.searchImage("cat", Type.PHOTO.type)
+    }
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
     Column {
         SearchInput {
             pixabayViewModel.searchImage(it,Type.PHOTO.type)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        images.value?.hits?.let { ImageGridList(it) }
+        images.value?.hits?.let {
+            ImageGridList(it)
+        }
     }
 }
 
