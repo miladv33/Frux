@@ -1,9 +1,12 @@
 package com.example.frux.presentation
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.frux.data.model.Hit
 import com.example.frux.data.model.PixabayImage
 import com.example.frux.domain.usecase.pixabayimage.PixabayUseCase
 import com.example.frux.presentation.delegate.error.ShowErrorDelegate
@@ -21,6 +24,9 @@ class PixabayViewModel @Inject constructor(
 ) : ViewModel(), ShowErrorDelegate by showErrorDelegate {
     private val _pixabayImageLiveData = MutableLiveData<PixabayImage>()
     val pixabayImageLiveData: LiveData<PixabayImage> = _pixabayImageLiveData
+    val selectedImage:MutableState<Hit?> = mutableStateOf(null)
+
+
     fun searchImage(searchKey: String, imageType: String) {
         viewModelScope.launch {
             _pixabayImageLiveData.value = null
@@ -34,5 +40,9 @@ class PixabayViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    fun setSelectedImage(it: Hit) {
+        selectedImage.value = it
     }
 }

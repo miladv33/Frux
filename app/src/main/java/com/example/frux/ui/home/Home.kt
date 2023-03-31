@@ -1,12 +1,16 @@
 package com.example.frux.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,11 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
@@ -39,12 +45,20 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
-    ModalBottomSheetDemo(bottomSheetState) {
+
+    ModalBottomSheetDemo(bottomSheetState, {
+        pixabayViewModel.selectedImage.value?.let {
+            ButtonSheet(it)
+        }.run {
+            Box(modifier = Modifier.height(1.dp))
+        }
+    }) {
         SearchPage(keyboardController, pixabayViewModel, bottomSheetState)
     }
-
 }
 
+
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun SearchPage(
@@ -53,10 +67,13 @@ private fun SearchPage(
     bottomSheetState: ModalBottomSheetState
 ) {
     val coroutineScope = rememberCoroutineScope()
+    coroutineScope.launch {
+        bottomSheetState.hide()
+    }
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
 
     LaunchedEffect(Unit) {
-        pixabayViewModel.searchImage("cat", Type.PHOTO.type)
+        pixabayViewModel.searchImage("fruits", Type.PHOTO.type)
     }
 
     Column {
@@ -66,7 +83,8 @@ private fun SearchPage(
         }
         Spacer(modifier = Modifier.height(8.dp))
         images.value?.hits?.let {
-            ImageGridList(it){
+            ImageGridList(it) { hit ->
+                pixabayViewModel.setSelectedImage(hit)
                 coroutineScope.launch {
                     bottomSheetState.show()
                 }
@@ -138,7 +156,7 @@ fun SearchInput(
 }
 
 @Composable
-fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL:String) -> Unit) {
+fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -150,7 +168,7 @@ fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL:String) -> Unit) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(imageUrls.size) { index ->
-                imageItem(imageUrls[index].previewURL) {
+                imageItem(imageUrls[index]) {
                     onClick.invoke(it)
                 }
             }
@@ -161,16 +179,16 @@ fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL:String) -> Unit) {
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 private fun imageItem(
-    previewURL: String,
-    onClick: (previewURL: String) -> Unit
+    hit: Hit,
+    onClick: (previewURL: Hit) -> Unit
 ) {
     Card(
         modifier = Modifier.size(150.dp),
         shape = MaterialTheme.shapes.medium,
-        onClick = { onClick.invoke(previewURL) }
+        onClick = { onClick.invoke(hit) }
     ) {
         Image(
-            painter = rememberAsyncImagePainter(model = previewURL),
+            painter = rememberAsyncImagePainter(model = hit.previewURL),
             contentDescription = "Image from URL",
             modifier = Modifier
                 .padding(8.dp)
