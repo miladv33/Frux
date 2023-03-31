@@ -10,18 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.frux.data.model.Hit
-import com.example.frux.data.remote.PHOTO
+import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 
 @Composable
 fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
-    pixabayViewModel.searchImage("cat", PHOTO)
+    pixabayViewModel.searchImage("cat", Type.PHOTO.type)
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
     images.value?.hits?.let { ImageGridList(it) }
 }

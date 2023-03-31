@@ -2,8 +2,8 @@ package com.example.frux.di
 
 import com.example.frux.BuildConfig
 import com.example.frux.data.remote.ApiKeyInterceptor
-import com.example.frux.data.remote.BASE_URL
 import com.example.frux.data.remote.service.PixabayService
+import com.example.frux.utilities.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
