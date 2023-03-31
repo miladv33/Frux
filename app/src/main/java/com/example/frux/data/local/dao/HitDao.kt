@@ -2,17 +2,19 @@ package com.example.frux.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.frux.data.model.Hit
 
 @Dao
 interface HitDao {
     // Insert a single hit into the database
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(hit: Hit)
 
     // Insert a list of hits into the database
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(hits: List<Hit>)
 
     // Get a hit by its id from the database
