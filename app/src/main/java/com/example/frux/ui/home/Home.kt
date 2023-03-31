@@ -136,7 +136,7 @@ private fun imageItem(
             painter = rememberAsyncImagePainter(model = previewURL),
             contentDescription = "Image from URL",
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp)) // 16 dp corner radius
                 .fillMaxSize(),
             contentScale = ContentScale.Crop
