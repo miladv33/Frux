@@ -1,19 +1,13 @@
 package com.example.frux.ui.home
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
@@ -76,6 +68,17 @@ private fun SearchPage(
     coroutineScope.launch {
         bottomSheetState.hide()
     }
+    val dialogueState = remember {
+        mutableStateOf(false)
+    }
+
+    val selectedHit = remember {
+        mutableStateOf<Hit?>(null)
+    }
+    val showButtonSheet = remember {
+        mutableStateOf(false)
+    }
+
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
 
     LaunchedEffect(Unit) {
@@ -89,10 +92,8 @@ private fun SearchPage(
         Spacer(modifier = Modifier.height(8.dp))
         images.value?.hits?.let {
             ImageColumnList(it) { hit ->
-                pixabayViewModel.setSelectedImage(hit)
-                coroutineScope.launch {
-                    bottomSheetState.show()
-                }
+                selectedHit.value = hit
+                dialogueState.value = true
             }
         }.run {
             Box(
@@ -103,6 +104,22 @@ private fun SearchPage(
             ) {
                 ArcRotationAnimation()
             }
+        }
+    }
+    if (dialogueState.value) {
+        showButtonSheet.value = false
+        ShowMoreDetailsDialog(onYesClicked = {
+            dialogueState.value = false
+            showButtonSheet.value = true
+        }) {
+            dialogueState.value = false
+            showButtonSheet.value = false
+        }
+    }
+    if (showButtonSheet.value) {
+        selectedHit.value?.let { pixabayViewModel.setSelectedImage(it) }
+        coroutineScope.launch {
+            bottomSheetState.show()
         }
     }
 }
@@ -172,7 +189,7 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
             modifier = Modifier.fillMaxSize()
         ) {
             items(imageUrls.size) { index ->
-                imageItem(imageUrls[index]) {
+                ImageItem(imageUrls[index]) {
                     onClick.invoke(it)
                 }
             }
@@ -181,7 +198,7 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
 }
 
 @Composable
-private fun imageItem(
+private fun ImageItem(
     hit: Hit,
     onClick: (previewURL: Hit) -> Unit
 ) {

@@ -94,21 +94,3 @@ fun ButtonSheet(hit: Hit) {
     }
 }
 
-@Composable
-fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        // Create a modifier for the box size and shape
-        val boxModifier = Modifier
-            .size(90.dp)
-            .clip(RoundedCornerShape(8.dp))
-        // Create a box with a black background with 0.4 alpha
-        Box(
-            modifier = boxModifier.background(Color.Black.copy(alpha = 0.4f)),
-            contentAlignment = Alignment.Center
-        ) {
-            // Display the content inside the box
-            content()
-        }
-    }
-
-}
