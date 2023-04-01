@@ -53,19 +53,12 @@ fun ButtonSheet(hit: Hit) {
                 color = Color.White,
             )
         }
-        // Display the views in the top right corner
         // Display the user image in the top left corner
-        val userPainter = rememberAsyncImagePainter(hit.userImageURL)
-        Image(
-            painter = userPainter,
-            contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .align(Alignment.TopStart)
-                .padding(8.dp)
-                .clip(CircleShape)
-                .border(2.dp, Color.White, shape = CircleShape)
-        )
+        Box(
+            modifier = Modifier.align(Alignment.TopStart)
+        ) {
+            UserImage(hit)
+        }
         val context = LocalContext.current
         BlackBox(modifier = Modifier
             .align(Alignment.BottomStart)

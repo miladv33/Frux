@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -83,7 +84,7 @@ private fun SearchPage(
         }
         Spacer(modifier = Modifier.height(8.dp))
         images.value?.hits?.let {
-            ImageGridList(it) { hit ->
+            ImageColumnList(it) { hit ->
                 pixabayViewModel.setSelectedImage(hit)
                 coroutineScope.launch {
                     bottomSheetState.show()
@@ -156,14 +157,13 @@ fun SearchInput(
 }
 
 @Composable
-fun ImageGridList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
+fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LazyVerticalGrid(
-            GridCells.Fixed(2),
+        LazyColumn(
             contentPadding = PaddingValues(16.dp),
             modifier = Modifier.fillMaxSize()
         ) {
@@ -183,7 +183,9 @@ private fun imageItem(
     onClick: (previewURL: Hit) -> Unit
 ) {
     Card(
-        modifier = Modifier.size(150.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp),
         shape = MaterialTheme.shapes.medium,
         onClick = { onClick.invoke(hit) }
     ) {
