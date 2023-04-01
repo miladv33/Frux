@@ -42,7 +42,7 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     // Launch a coroutine to call searchImage only once
     val keyboardController = LocalSoftwareKeyboardController.current
     val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded)
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetDemo(bottomSheetState, {
         pixabayViewModel.selectedImage.value?.let {
@@ -116,10 +116,16 @@ private fun SearchPage(
             showButtonSheet.value = false
         }
     }
+
     if (showButtonSheet.value) {
         selectedHit.value?.let { pixabayViewModel.setSelectedImage(it) }
         coroutineScope.launch {
             bottomSheetState.show()
+        }
+    }
+    LaunchedEffect(bottomSheetState) {
+        snapshotFlow { bottomSheetState.isVisible }.collect { isVisible ->
+            showButtonSheet.value = isVisible
         }
     }
 }
@@ -140,13 +146,9 @@ fun SearchInput(
         .background(MaterialTheme.colors.surface, shape)
 
     Row(
-        modifier = modifier
-            .border(
-                width = 1.dp,
-                color = Color.White,
-                shape = shape
-            ),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier.border(
+                width = 1.dp, color = Color.White, shape = shape
+            ), verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
             value = searchValue.value,
@@ -166,12 +168,10 @@ fun SearchInput(
         IconButton(
             onClick = {
                 onSearchClick.invoke(searchValue.value)
-            },
-            modifier = Modifier.size(48.dp)
+            }, modifier = Modifier.size(48.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search"
+                imageVector = Icons.Default.Search, contentDescription = "Search"
             )
         }
     }
@@ -185,8 +185,7 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-            modifier = Modifier.fillMaxSize()
+            contentPadding = PaddingValues(16.dp), modifier = Modifier.fillMaxSize()
         ) {
             items(imageUrls.size) { index ->
                 ImageItem(imageUrls[index]) {
@@ -199,21 +198,15 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
 
 @Composable
 private fun ImageItem(
-    hit: Hit,
-    onClick: (previewURL: Hit) -> Unit
+    hit: Hit, onClick: (previewURL: Hit) -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(150.dp)
-            .clickable { onClick.invoke(hit) }
-            .padding(8.dp),
-        elevation = 8.dp,
-        shape = RoundedCornerShape(8.dp)
-    ) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .height(150.dp)
+        .clickable { onClick.invoke(hit) }
+        .padding(8.dp), elevation = 8.dp, shape = RoundedCornerShape(8.dp)) {
         Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.padding(8.dp)) {
                 val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
