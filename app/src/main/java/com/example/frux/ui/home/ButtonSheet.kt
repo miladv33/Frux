@@ -9,9 +9,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -25,56 +27,69 @@ fun ButtonSheet(hit: Hit) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = hit.largeImageURL),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(
+                    RoundedCornerShape(8.dp)
+                )
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = hit.user,
-            style = MaterialTheme.typography.h5
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = hit.tags,
-            style = MaterialTheme.typography.subtitle1
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row {
-            Icon(
-                imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = null,
-                tint = Color.Red,
-                modifier = Modifier.size(24.dp)
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                UserImage(hit = hit)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = hit.user,
+                    style = MaterialTheme.typography.h5
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = hit.tags,
+                style = MaterialTheme.typography.subtitle1
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = hit.likes.toString())
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = downloadIcon,
-                contentDescription = null,
-                tint = Color.Blue,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = hit.downloads.toString())
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                painter = commentIcon,
-                contentDescription = null,
-                tint = Color.Green,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = hit.comments.toString())
+            Spacer(modifier = Modifier.height(16.dp))
+            Row {
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = null,
+                    tint = Color.Red,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = hit.likes.toString())
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(
+                    painter = downloadIcon,
+                    contentDescription = null,
+                    tint = Color.Blue,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = hit.downloads.toString())
+                Spacer(modifier = Modifier.width(16.dp))
+                Icon(
+                    painter = commentIcon,
+                    contentDescription = null,
+                    tint = Color.Green,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = hit.comments.toString())
+            }
         }
     }
-}
 
+}

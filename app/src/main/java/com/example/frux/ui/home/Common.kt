@@ -31,8 +31,7 @@ fun UserImage(hit: Hit) {
         painter = userPainter,
         contentDescription = null,
         modifier = Modifier
-            .size(64.dp)
-            .padding(8.dp)
+            .size(32.dp)
             .clip(CircleShape)
             .border(2.dp, Color.White, shape = CircleShape)
     )
