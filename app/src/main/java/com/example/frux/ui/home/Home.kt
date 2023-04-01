@@ -3,6 +3,7 @@ package com.example.frux.ui.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +28,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
@@ -76,7 +79,6 @@ private fun SearchPage(
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("fruits", Type.PHOTO.type)
     }
-
     Column {
         SearchInput {
             keyboardController?.hide()
@@ -177,7 +179,6 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
 }
 
 @Composable
-@OptIn(ExperimentalMaterialApi::class)
 private fun imageItem(
     hit: Hit,
     onClick: (previewURL: Hit) -> Unit
@@ -185,19 +186,45 @@ private fun imageItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp),
-        shape = MaterialTheme.shapes.medium,
-        onClick = { onClick.invoke(hit) }
+            .height(150.dp)
+            .clickable { onClick.invoke(hit) }
+            .padding(8.dp),
+        elevation = 8.dp,
+        shape = RoundedCornerShape(8.dp)
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = hit.previewURL),
-            contentDescription = "Image from URL",
-            modifier = Modifier
-                .padding(8.dp)
-                .clip(RoundedCornerShape(8.dp)) // 16 dp corner radius
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = rememberAsyncImagePainter(model = hit.previewURL),
+                contentDescription = "Image from URL",
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Column(
+                modifier = Modifier.padding(start = 8.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = hit.user,
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = hit.tags,
+                    style = MaterialTheme.typography.caption,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
     }
 }
