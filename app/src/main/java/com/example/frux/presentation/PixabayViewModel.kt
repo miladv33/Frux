@@ -25,9 +25,11 @@ class PixabayViewModel @Inject constructor(
     private val _pixabayImageLiveData = MutableLiveData<PixabayImage>()
     val pixabayImageLiveData: LiveData<PixabayImage> = _pixabayImageLiveData
     val selectedImage:MutableState<Hit?> = mutableStateOf(null)
-
+    private var lastSearch = ""
 
     fun searchImage(searchKey: String, imageType: String) {
+        if (searchKey == lastSearch || searchKey.isEmpty()) return
+        lastSearch = searchKey
         viewModelScope.launch {
             _pixabayImageLiveData.value = null
             pixabayUseCase.searchImage(searchKey, imageType).flowOn(Dispatchers.IO).take(2)
