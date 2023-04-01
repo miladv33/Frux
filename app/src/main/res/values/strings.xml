@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Frux</string>
     <string name="dismiss">dismiss</string>
+    <string name="detail_alert">You will be able to interact with the image in a more detailed way.</string>
+    <string name="dialogue_alert">Do you want to see more details?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

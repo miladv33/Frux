@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.rememberAsyncImagePainter
+import com.example.frux.R
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.loading.SimpleArcRotation
 
@@ -86,14 +88,14 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
                 modifier = Modifier.width(300.dp).padding(16.dp)
             ) {
                 Text(
-                    text = "Do you want to see more details?",
+                    text = stringResource(R.string.dialogue_alert),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = Color.Black,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
-                    text = "You will be able to interact with the image in a more detailed way.",
+                    text = stringResource(R.string.detail_alert),
                     fontSize = 14.sp,
                     color = Color.Black,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -106,14 +108,14 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
                         onClick = { onNoClicked() },
                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primary)
                     ) {
-                        Text("No", color = Color.Black)
+                        Text(stringResource(R.string.no), color = Color.Black)
                     }
                     TextButton(
                         onClick = { onYesClicked() },
                         colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
                         modifier = Modifier.padding(start = 8.dp)
                     ) {
-                        Text("Yes", color = Color.Black)
+                        Text(stringResource(R.string.yes), color = Color.Black)
                     }
                 }
             }
