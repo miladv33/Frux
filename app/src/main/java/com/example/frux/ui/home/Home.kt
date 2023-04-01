@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.frux.data.model.Hit
@@ -196,16 +198,21 @@ private fun imageItem(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(model = hit.previewURL),
-                contentDescription = "Image from URL",
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
+            Box(modifier = Modifier.padding(8.dp)) {
+                val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
+                if (rememberAsyncImagePainter.state is AsyncImagePainter.State.Loading) {
+                    LoadingImage()
+                }
+                Image(
+                    painter = rememberAsyncImagePainter,
+                    contentDescription = "Image from URL",
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(100.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Column(
                 modifier = Modifier.padding(start = 8.dp),
                 verticalArrangement = Arrangement.Center,
