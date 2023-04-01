@@ -3,9 +3,7 @@ package com.example.frux.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,8 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.loading.SimpleArcRotation
@@ -68,25 +70,53 @@ fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
 
 @Composable
 fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
-    AlertDialog(
+    Dialog(
         onDismissRequest = { onNoClicked() },
-        title = { Text("Do you want to see more details?") },
-        confirmButton = {
-            Button(
-                onClick = { onYesClicked() },
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        )
+    ) {
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = Color.White,
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Column(
+                modifier = Modifier.width(300.dp).padding(16.dp)
             ) {
-                Text("Yes")
-            }
-        },
-        dismissButton = {
-            Button(
-                onClick = { onNoClicked() },
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary)
-            ) {
-                Text("No")
+                Text(
+                    text = "Do you want to see more details?",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Text(
+                    text = "You will be able to interact with the image in a more detailed way.",
+                    fontSize = 14.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(
+                        onClick = { onNoClicked() },
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primary)
+                    ) {
+                        Text("No", color = Color.Black)
+                    }
+                    TextButton(
+                        onClick = { onYesClicked() },
+                        colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Text("Yes", color = Color.Black)
+                    }
+                }
             }
         }
-
-    )
+    }
 }
