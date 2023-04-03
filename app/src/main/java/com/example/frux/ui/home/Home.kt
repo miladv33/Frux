@@ -33,6 +33,7 @@ import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 import com.example.frux.ui.ArcRotationAnimation
 import com.example.frux.ui.ModalBottomSheetDemo
+import com.example.frux.ui.theme.Shapes
 import kotlinx.coroutines.*
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -135,7 +136,7 @@ fun SearchInput(
     onSearchClick: (value: String) -> Unit
 ) {
     // Define a shape for the input text with rounded corners
-    val shape = RoundedCornerShape(8.dp)
+    val shape = Shapes.medium
 
     // Define and remember a mutable state for the search value
     val searchValue = remember { mutableStateOf("") }
@@ -204,7 +205,7 @@ private fun ImageItem(
         .fillMaxWidth()
         .height(150.dp)
         .clickable { onClick.invoke(hit) }
-        .padding(8.dp), elevation = 8.dp, shape = RoundedCornerShape(8.dp)) {
+        .padding(8.dp), elevation = 8.dp, shape = Shapes.medium) {
         Row(
             modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
@@ -219,7 +220,7 @@ private fun ImageItem(
                     modifier = Modifier
                         .width(100.dp)
                         .height(100.dp)
-                        .clip(RoundedCornerShape(8.dp)),
+                        .clip(Shapes.medium),
                     contentScale = ContentScale.Crop
                 )
             }

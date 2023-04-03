@@ -23,6 +23,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.frux.R
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.loading.SimpleArcRotation
+import com.example.frux.ui.theme.Shapes
 
 @Composable
 fun UserImage(hit: Hit) {
@@ -43,7 +44,7 @@ fun LoadingImage() {
     Box(
         modifier = Modifier
             .size(100.dp)
-            .background(Color.Gray, RoundedCornerShape(8.dp)),
+            .background(Color.Gray, Shapes.medium),
         contentAlignment = Alignment.Center,
 
         ) {
@@ -57,7 +58,7 @@ fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
         // Create a modifier for the box size and shape
         val boxModifier = Modifier
             .size(90.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(Shapes.medium)
         // Create a box with a black background with 0.4 alpha
         Box(
             modifier = boxModifier.background(Color.Black.copy(alpha = 0.4f)),
@@ -79,7 +80,7 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
         )
     ) {
         Surface(
-            shape = RoundedCornerShape(16.dp),
+            shape = Shapes.large,
             color = Color.White,
             modifier = Modifier.padding(8.dp)
         ) {

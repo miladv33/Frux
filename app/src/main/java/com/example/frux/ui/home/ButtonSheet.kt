@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.frux.data.model.Hit
+import com.example.frux.ui.theme.Shapes
 
 @Composable
 fun ButtonSheet(hit: Hit) {
@@ -29,7 +30,7 @@ fun ButtonSheet(hit: Hit) {
         modifier = Modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(Shapes.medium)
     ) {
         Image(
             painter = rememberAsyncImagePainter(model = hit.largeImageURL),
@@ -39,7 +40,7 @@ fun ButtonSheet(hit: Hit) {
                 .fillMaxWidth()
                 .height(200.dp)
                 .clip(
-                    RoundedCornerShape(8.dp)
+                    Shapes.medium
                 )
         )
         Spacer(modifier = Modifier.height(16.dp))
