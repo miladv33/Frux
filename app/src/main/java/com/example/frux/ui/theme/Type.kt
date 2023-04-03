@@ -7,22 +7,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
+//val Typography = Typography(
+//    body1 = TextStyle(
+//        fontFamily = FontFamily.Default,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 16.sp,
+//    )
+//    /* Other default text styles to override
+//    button = TextStyle(
+//        fontFamily = FontFamily.Default,
+//        fontWeight = FontWeight.W500,
+//        fontSize = 14.sp
+//    ),
+//    caption = TextStyle(
+//        fontFamily = FontFamily.Default,
+//        fontWeight = FontWeight.Normal,
+//        fontSize = 12.sp
+//    )
+//    */
+//)
 val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    h5 = TextStyle(fontSize = FONT_SIZE_H5, fontWeight = FontWeight.Bold, color = WHITE),
+    subtitle1 = TextStyle(
+        fontSize = FONT_SIZE_SUBTITLE1,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+        color = WHITE
     ),
     caption = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontSize = FONT_SIZE_CAPTION,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        color = WHITE
     )
-    */
 )

@@ -33,7 +33,7 @@ import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 import com.example.frux.ui.ArcRotationAnimation
 import com.example.frux.ui.ModalBottomSheetDemo
-import com.example.frux.ui.theme.Shapes
+import com.example.frux.ui.theme.*
 import kotlinx.coroutines.*
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -49,7 +49,7 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
         pixabayViewModel.selectedImage.value?.let {
             ButtonSheet(it)
         }.run {
-            Box(modifier = Modifier.height(1.dp))
+            Box(modifier = Modifier.height(borderSize))
         }
     }) {
         SearchPage(keyboardController, pixabayViewModel, bottomSheetState)
@@ -90,7 +90,7 @@ private fun SearchPage(
             keyboardController?.hide()
             pixabayViewModel.searchImage(it, Type.PHOTO.type)
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(defaultSpacing))
         images.value?.hits?.let {
             ImageColumnList(it) { hit ->
                 selectedHit.value = hit
@@ -143,12 +143,12 @@ fun SearchInput(
 
     // The rest of the code is unchanged
     val modifier = Modifier
-        .padding(8.dp)
+        .padding(defaultSpacing)
         .background(MaterialTheme.colors.surface, shape)
 
     Row(
         modifier = modifier.border(
-                width = 1.dp, color = Color.White, shape = shape
+                width = borderSize, color = Color.White, shape = shape
             ), verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
@@ -169,7 +169,7 @@ fun SearchInput(
         IconButton(
             onClick = {
                 onSearchClick.invoke(searchValue.value)
-            }, modifier = Modifier.size(48.dp)
+            }, modifier = Modifier.size(defaultIconButtonPadding)
         ) {
             Icon(
                 imageVector = Icons.Default.Search, contentDescription = "Search"
@@ -186,7 +186,7 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(16.dp), modifier = Modifier.fillMaxSize()
+            contentPadding = PaddingValues(defaultPadding), modifier = Modifier.fillMaxSize()
         ) {
             items(imageUrls.size) { index ->
                 ImageItem(imageUrls[index]) {
@@ -203,13 +203,13 @@ private fun ImageItem(
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .height(150.dp)
+        .height(loadingHeight)
         .clickable { onClick.invoke(hit) }
-        .padding(8.dp), elevation = 8.dp, shape = Shapes.medium) {
+        .padding(defaultSpacing), elevation = cardCornerRadius, shape = Shapes.medium) {
         Row(
             modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.padding(8.dp)) {
+            Box(modifier = Modifier.padding(defaultSpacing)) {
                 val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
                 if (rememberAsyncImagePainter.state is AsyncImagePainter.State.Loading) {
                     LoadingImage()
@@ -218,20 +218,20 @@ private fun ImageItem(
                     painter = rememberAsyncImagePainter,
                     contentDescription = "Image from URL",
                     modifier = Modifier
-                        .width(100.dp)
-                        .height(100.dp)
+                        .width(loadingImageSize)
+                        .height(loadingImageSize)
                         .clip(Shapes.medium),
                     contentScale = ContentScale.Crop
                 )
             }
             Column(
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier.padding(start = defaultSpacing),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
                     text = hit.user,
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis

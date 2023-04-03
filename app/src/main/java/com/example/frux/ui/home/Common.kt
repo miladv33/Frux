@@ -23,7 +23,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.frux.R
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.loading.SimpleArcRotation
-import com.example.frux.ui.theme.Shapes
+import com.example.frux.ui.theme.*
 
 @Composable
 fun UserImage(hit: Hit) {
@@ -32,7 +32,7 @@ fun UserImage(hit: Hit) {
         painter = userPainter,
         contentDescription = null,
         modifier = Modifier
-            .size(32.dp)
+            .size(userImageSize)
             .clip(CircleShape)
             .border(2.dp, Color.White, shape = CircleShape)
     )
@@ -43,7 +43,7 @@ fun UserImage(hit: Hit) {
 fun LoadingImage() {
     Box(
         modifier = Modifier
-            .size(100.dp)
+            .size(loadingImageSize)
             .background(Color.Gray, Shapes.medium),
         contentAlignment = Alignment.Center,
 
@@ -57,7 +57,7 @@ fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
         // Create a modifier for the box size and shape
         val boxModifier = Modifier
-            .size(90.dp)
+            .size(blackBoxSize)
             .clip(Shapes.medium)
         // Create a box with a black background with 0.4 alpha
         Box(
@@ -82,23 +82,23 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
         Surface(
             shape = Shapes.large,
             color = Color.White,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(defaultSpacing)
         ) {
             Column(
-                modifier = Modifier.width(300.dp).padding(16.dp)
+                modifier = Modifier.width(dialogueWidth).padding(dialogueCornerRadius)
             ) {
                 Text(
                     text = stringResource(R.string.dialogue_alert),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = Color.Black,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = defaultSpacing)
                 )
                 Text(
                     text = stringResource(R.string.detail_alert),
                     fontSize = 14.sp,
                     color = Color.Black,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = defaultPadding)
                 )
                 Row(
                     horizontalArrangement = Arrangement.End,
@@ -113,7 +113,7 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
                     TextButton(
                         onClick = { onYesClicked() },
                         colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
-                        modifier = Modifier.padding(start = 8.dp)
+                        modifier = Modifier.padding(start = defaultSpacing)
                     ) {
                         Text(stringResource(R.string.yes), color = Color.Black)
                     }

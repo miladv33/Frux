@@ -1,19 +1,24 @@
 package com.example.frux.ui.theme
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-val marginTop = 16.dp 
-val padding = 16.dp 
-val spacing = 8.dp 
-val iconSize = 24.dp 
-val imageHeight = 200.dp 
-val cornerRadius = 8.dp 
-val userImageSize = 32.dp 
-val borderWidth = 2.dp 
-val loadingImageSize = 100.dp 
-val blackBoxSize = 90.dp 
-val dialogueWidth = 300.dp 
-val dialogueCornerRadius = 16.dp 
-val dialoguePadding = 16.dp 
-val dialogueSpacing = 8.dp
+val borderSize = 1.dp
+val defaultSpacing = 8.dp
+val cardCornerRadius = 8.dp
+val defaultMargin = 16.dp
+val defaultPadding = 16.dp
+val dialogueCornerRadius = 16.dp
+val defaultIconSize = 24.dp
+val userImageSize = 32.dp
+val defaultIconButtonPadding = 48.dp
+val blackBoxSize = 90.dp
+val loadingImageSize = 100.dp
+val loadingHeight = 150.dp
+val cardImageHeight = 200.dp
+val dialogueWidth = 300.dp
+
+val FONT_SIZE_H5 = 18.sp
+val FONT_SIZE_SUBTITLE1 = 14.sp
+val FONT_SIZE_CAPTION = 12.sp
 
