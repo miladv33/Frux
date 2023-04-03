@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 private val DarkColorPalette = darkColors(
     primary = TextColor,
     primaryVariant = Purple700,
-    secondary = Teal200,
+    secondary = InputBackground,
     background = CardBackground,
     onPrimary = TextColorWhiteBackground,
     onSecondary = TextColorWhiteBackground,
@@ -18,7 +18,7 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = TextColorReverse,
     primaryVariant = Purple700Reverse,
-    secondary = Teal200Reverse,
+    secondary = InputBackgroundReverse,
     background = CardBackgroundReverse,
     onPrimary = TextColorWhiteBackgroundReverse,
     onSecondary = TextColorWhiteBackgroundReverse,

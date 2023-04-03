@@ -1,6 +1,7 @@
 package com.example.frux.ui.home
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -141,14 +142,13 @@ fun SearchInput(
     // Define and remember a mutable state for the search value
     val searchValue = remember { mutableStateOf("") }
 
-    // The rest of the code is unchanged
     val modifier = Modifier
         .padding(defaultSpacing)
-        .background(Color.White, shape)
+        .background(MaterialTheme.colors.secondary, shape)
 
     Row(
         modifier = modifier.border(
-            width = borderSize, color = Color.White, shape = shape
+            width = borderSize, color = MaterialTheme.colors.primary, shape = shape
         ), verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
@@ -159,6 +159,7 @@ fun SearchInput(
             modifier = Modifier.weight(1f),
             shape = shape,
             colors = TextFieldDefaults.textFieldColors(
+                textColor = MaterialTheme.colors.primary,
                 backgroundColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
@@ -172,6 +173,7 @@ fun SearchInput(
             }, modifier = Modifier.size(defaultIconButtonPadding)
         ) {
             Icon(
+                tint =MaterialTheme.colors.primary,
                 imageVector = Icons.Default.Search, contentDescription = "Search"
             )
         }

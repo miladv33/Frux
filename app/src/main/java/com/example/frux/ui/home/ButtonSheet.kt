@@ -69,7 +69,7 @@ fun ButtonSheet(hit: Hit) {
                     modifier = Modifier.size(defaultIconSize)
                 )
                 Spacer(modifier = Modifier.width(defaultSpacing))
-                Text(text = hit.likes.toString())
+                Text(text = hit.likes.toString(), color = MaterialTheme.colors.primary)
                 Spacer(modifier = Modifier.width(defaultMargin))
                 Icon(
                     painter = downloadIcon,
@@ -78,7 +78,7 @@ fun ButtonSheet(hit: Hit) {
                     modifier = Modifier.size(defaultIconSize)
                 )
                 Spacer(modifier = Modifier.width(defaultSpacing))
-                Text(text = hit.downloads.toString())
+                Text(text = hit.downloads.toString(), color = MaterialTheme.colors.primary)
                 Spacer(modifier = Modifier.width(defaultMargin))
                 Icon(
                     painter = commentIcon,
@@ -87,7 +87,7 @@ fun ButtonSheet(hit: Hit) {
                     modifier = Modifier.size(defaultIconSize)
                 )
                 Spacer(modifier = Modifier.width(defaultSpacing))
-                Text(text = hit.comments.toString())
+                Text(text = hit.comments.toString(), color = MaterialTheme.colors.primary)
             }
         }
     }
