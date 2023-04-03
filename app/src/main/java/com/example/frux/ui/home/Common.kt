@@ -51,23 +51,6 @@ fun LoadingImage() {
     }
 }
 
-@Composable
-fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
-    Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        // Create a modifier for the box size and shape
-        val boxModifier = Modifier
-            .size(blackBoxSize)
-            .clip(Shapes.medium)
-        // Create a box with a black background with 0.4 alpha
-        Box(
-            modifier = boxModifier.background(TextColorWhiteBackground.copy(alpha = 0.4f)),
-            contentAlignment = Alignment.Center
-        ) {
-            // Display the content inside the box
-            content()
-        }
-    }
-}
 
 @Composable
 fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
