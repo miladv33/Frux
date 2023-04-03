@@ -13,7 +13,8 @@ private val DarkColorPalette = darkColors(
     background = CardBackground,
     onPrimary = TextColorWhiteBackground,
     onSecondary = TextColorWhiteBackground,
-    onBackground = TextColorWhiteBackground
+    onBackground = TextColorWhiteBackground,
+    secondaryVariant = Teal200
 )
 private val LightColorPalette = lightColors(
     primary = TextColorReverse,
@@ -22,7 +23,8 @@ private val LightColorPalette = lightColors(
     background = CardBackgroundReverse,
     onPrimary = TextColorWhiteBackgroundReverse,
     onSecondary = TextColorWhiteBackgroundReverse,
-    onBackground = TextColorWhiteBackgroundReverse
+    onBackground = TextColorWhiteBackgroundReverse,
+    secondaryVariant = Teal200
 )
 
 @Composable

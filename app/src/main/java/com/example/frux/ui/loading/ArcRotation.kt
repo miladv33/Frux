@@ -1,4 +1,4 @@
-package com.example.frux.ui
+package com.example.frux.ui.loading
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
