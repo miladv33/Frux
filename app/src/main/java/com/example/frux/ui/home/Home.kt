@@ -12,7 +12,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -23,12 +25,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import com.example.frux.R
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
@@ -57,7 +61,20 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     }
 }
 
-
+@Composable
+fun ThemeToggleButton(
+    darkTheme: Boolean,
+    onThemeChanged: (Boolean) -> Unit
+) {
+    Switch(modifier = Modifier.size(defaultIconSize),
+        checked = darkTheme,
+        onCheckedChange = { onThemeChanged(it) },
+        colors = SwitchDefaults.colors(
+            checkedThumbColor = MaterialTheme.colors.primary,
+            uncheckedThumbColor = MaterialTheme.colors.primary
+        )
+    )
+}
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -86,7 +103,12 @@ private fun SearchPage(
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("fruits", Type.PHOTO.type)
     }
-    Column {
+    Column(horizontalAlignment = Alignment.End) {
+        Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)){
+            ThemeToggleButton(pixabayViewModel.currentThemIsDark.value) {
+                pixabayViewModel.currentThemIsDark.value = !pixabayViewModel.currentThemIsDark.value
+            }
+        }
         SearchInput {
             keyboardController?.hide()
             pixabayViewModel.searchImage(it, Type.PHOTO.type)
@@ -173,7 +195,7 @@ fun SearchInput(
             }, modifier = Modifier.size(defaultIconButtonPadding)
         ) {
             Icon(
-                tint =MaterialTheme.colors.primary,
+                tint = MaterialTheme.colors.primary,
                 imageVector = Icons.Default.Search, contentDescription = "Search"
             )
         }
@@ -241,7 +263,7 @@ private fun ImageItem(
                 )
                 Text(
                     text = hit.tags,
-                    color =  MaterialTheme.colors.primary,
+                    color = MaterialTheme.colors.primary,
                     style = MaterialTheme.typography.caption,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

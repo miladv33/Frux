@@ -22,6 +22,7 @@ class PixabayViewModel @Inject constructor(
     private val pixabayUseCase: PixabayUseCase,
     private val showErrorDelegate: ShowErrorDelegate
 ) : ViewModel(), ShowErrorDelegate by showErrorDelegate {
+    val currentThemIsDark = mutableStateOf(true)
     private val _pixabayImageLiveData = MutableLiveData<PixabayImage>()
     val pixabayImageLiveData: LiveData<PixabayImage> = _pixabayImageLiveData
     val selectedImage:MutableState<Hit?> = mutableStateOf(null)
