@@ -19,7 +19,7 @@ fun SimpleArcRotation() {
     val infiniteTransition = rememberInfiniteTransition()
 
 
-    val arcColor = MaterialTheme.colors.primary
+    val arcColor = MaterialTheme.colors.secondaryVariant
     val arcAngle1 by infiniteTransition.animateFloat(
         initialValue = 0F,
         targetValue = 180F,

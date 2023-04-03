@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.theme.*
@@ -51,20 +50,22 @@ fun ButtonSheet(hit: Hit) {
                 Spacer(modifier = Modifier.width(defaultSpacing))
                 Text(
                     text = hit.user,
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
+                    color = MaterialTheme.colors.primary
                 )
             }
             Spacer(modifier = Modifier.height(defaultMargin))
             Text(
                 text = hit.tags,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.subtitle1,
+                color = MaterialTheme.colors.primary
             )
             Spacer(modifier = Modifier.height(defaultMargin))
             Row {
                 Icon(
                     imageVector = Icons.Default.FavoriteBorder,
                     contentDescription = null,
-                    tint = Color.Red,
+                    tint = LikeColor,
                     modifier = Modifier.size(defaultIconSize)
                 )
                 Spacer(modifier = Modifier.width(defaultSpacing))
@@ -73,7 +74,7 @@ fun ButtonSheet(hit: Hit) {
                 Icon(
                     painter = downloadIcon,
                     contentDescription = null,
-                    tint = Color.Blue,
+                    tint = DownloadColor,
                     modifier = Modifier.size(defaultIconSize)
                 )
                 Spacer(modifier = Modifier.width(defaultSpacing))

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,7 +43,7 @@ fun LoadingImage() {
     Box(
         modifier = Modifier
             .size(loadingImageSize)
-            .background(Color.Gray, Shapes.medium),
+            .background(MaterialTheme.colors.background, Shapes.medium),
         contentAlignment = Alignment.Center,
 
         ) {
@@ -61,7 +60,7 @@ fun BlackBox(modifier: Modifier, content: @Composable () -> Unit) {
             .clip(Shapes.medium)
         // Create a box with a black background with 0.4 alpha
         Box(
-            modifier = boxModifier.background(Color.Black.copy(alpha = 0.4f)),
+            modifier = boxModifier.background(TextColorWhiteBackground.copy(alpha = 0.4f)),
             contentAlignment = Alignment.Center
         ) {
             // Display the content inside the box
@@ -91,13 +90,13 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
                     text = stringResource(R.string.dialogue_alert),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
-                    color = Color.Black,
+                    color = TextColorWhiteBackground,
                     modifier = Modifier.padding(bottom = defaultSpacing)
                 )
                 Text(
                     text = stringResource(R.string.detail_alert),
                     fontSize = 14.sp,
-                    color = Color.Black,
+                    color = TextColorWhiteBackground,
                     modifier = Modifier.padding(bottom = defaultPadding)
                 )
                 Row(
@@ -106,16 +105,16 @@ fun ShowMoreDetailsDialog(onYesClicked: () -> Unit, onNoClicked: () -> Unit) {
                 ) {
                     TextButton(
                         onClick = { onNoClicked() },
-                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primary)
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.secondaryVariant)
                     ) {
-                        Text(stringResource(R.string.no), color = Color.Black)
+                        Text(stringResource(R.string.no), color = TextColorWhiteBackground)
                     }
                     TextButton(
                         onClick = { onYesClicked() },
                         colors = ButtonDefaults.textButtonColors(contentColor = Color.White),
                         modifier = Modifier.padding(start = defaultSpacing)
                     ) {
-                        Text(stringResource(R.string.yes), color = Color.Black)
+                        Text(stringResource(R.string.yes), color = TextColorWhiteBackground)
                     }
                 }
             }

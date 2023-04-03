@@ -144,12 +144,12 @@ fun SearchInput(
     // The rest of the code is unchanged
     val modifier = Modifier
         .padding(defaultSpacing)
-        .background(MaterialTheme.colors.surface, shape)
+        .background(Color.White, shape)
 
     Row(
         modifier = modifier.border(
-                width = borderSize, color = Color.White, shape = shape
-            ), verticalAlignment = Alignment.CenterVertically
+            width = borderSize, color = Color.White, shape = shape
+        ), verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
             value = searchValue.value,
@@ -233,11 +233,13 @@ private fun ImageItem(
                     text = hit.user,
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.primary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = hit.tags,
+                    color =  MaterialTheme.colors.primary,
                     style = MaterialTheme.typography.caption,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

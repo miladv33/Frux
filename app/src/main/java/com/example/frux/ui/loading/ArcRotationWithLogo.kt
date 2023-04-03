@@ -29,7 +29,7 @@ fun ArcRotationWithLogo() {
     val infiniteTransition = rememberInfiniteTransition()
 
 
-    val arcColor = MaterialTheme.colors.primary
+    val arcColor = MaterialTheme.colors.secondaryVariant
     val arcAngle1 by infiniteTransition.animateFloat(
         initialValue = 0F,
         targetValue = 180F,
@@ -70,7 +70,7 @@ fun ArcRotationWithLogo() {
 val inset = with(LocalDensity.current) { 7.dp.toPx() }
     val bitmap = getBitmapFromImage(LocalContext.current, com.example.frux.R.drawable.ic_launcher_background , pxValue).asImageBitmap()
 
-    val colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+    val colorFilter = ColorFilter.tint(MaterialTheme.colors.secondaryVariant)
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
