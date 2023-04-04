@@ -5,6 +5,8 @@ import com.example.frux.data.map.mappers.PixarImageMapper
 import com.example.frux.data.model.PixabayImage
 import com.example.frux.data.remote.service.PixabayService
 import com.example.frux.data.repository.base.IBaseRepository
+import com.example.frux.data.repository.safecall.SafeCallDelegate
+import com.example.frux.data.repository.safecall.SafeCallDelegateImpl
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
@@ -17,19 +19,20 @@ import javax.inject.Inject
 class PixabayImageRepository @Inject constructor(
     private val pixabayService: PixabayService,
     private val pixarImageMapper: PixarImageMapper,
-    private val hitDao: HitDao
-) : IBaseRepository.PixabayImageRepository() {
+    private val hitDao: HitDao,
+    private val safeCallDelegate: SafeCallDelegateImpl
+) : IBaseRepository.PixabayImageRepository(), SafeCallDelegate by safeCallDelegate {
 
-    override suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage> {
+    override suspend fun searchImage(searchKey: String, imageType: String): Result<PixabayImage> = safeCall {
         val searchedImage = getImagesFromServer(searchKey, imageType)
         saveImagesToDatabase(searchKey, searchedImage)
-        return searchedImage
+        searchedImage
     }
 
     override suspend fun getImagesFromServer(
         searchKey: String,
         imageType: String
-    ): Result<PixabayImage> {
+    ): Result<PixabayImage>  {
         val images = pixabayService.getImages(query = searchKey, imageType = imageType)
         return pixarImageMapper.map(images)
     }

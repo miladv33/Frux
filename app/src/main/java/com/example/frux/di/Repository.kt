@@ -5,6 +5,8 @@ import com.example.frux.data.map.mappers.PixarImageMapper
 import com.example.frux.data.remote.service.PixabayService
 import com.example.frux.data.repository.PixabayImageRepository
 import com.example.frux.data.repository.base.IBaseRepository
+import com.example.frux.data.repository.safecall.SafeCallDelegate
+import com.example.frux.data.repository.safecall.SafeCallDelegateImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,8 +21,9 @@ object Repository {
     fun providePixabayRepository(
         pixabayService: PixabayService,
         pixarImageMapper: PixarImageMapper,
-        dao: HitDao
+        dao: HitDao,
+        safeCallDelegate: SafeCallDelegateImpl
     ): IBaseRepository.PixabayImageRepository {
-        return PixabayImageRepository(pixabayService, pixarImageMapper, dao)
+        return PixabayImageRepository(pixabayService, pixarImageMapper, dao, safeCallDelegate)
     }
 }
