@@ -2,6 +2,7 @@ package com.example.frux.data.repository.base
 
 import com.example.frux.data.model.Hit
 import com.example.frux.data.model.PixabayImage
+import com.example.frux.data.model.Theme
 import kotlinx.coroutines.flow.Flow
 
 interface IBaseRepository {
@@ -19,6 +20,7 @@ interface IBaseRepository {
     }
 
     abstract class FruxThemeRepository {
-        abstract suspend fun saveImage(themeIsDark: Boolean)
+        abstract suspend fun saveTheme(themeIsDark: Boolean)
+        abstract suspend fun getTheme(): Theme?
     }
 }

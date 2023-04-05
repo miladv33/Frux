@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.frux.data.model.Hit
 import com.example.frux.data.model.PixabayImage
 import com.example.frux.domain.usecase.pixabayimage.PixabayUseCase
+import com.example.frux.domain.usecase.theme.FruxThemeUseCase
 import com.example.frux.presentation.delegate.error.ShowErrorDelegate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PixabayViewModel @Inject constructor(
     private val pixabayUseCase: PixabayUseCase,
+    private val fruxThemeUseCase: FruxThemeUseCase,
     private val showErrorDelegate: ShowErrorDelegate
 ) : ViewModel(), ShowErrorDelegate by showErrorDelegate {
     val currentThemIsDark = mutableStateOf(true)
@@ -29,7 +31,6 @@ class PixabayViewModel @Inject constructor(
     private val _loadingData: MutableLiveData<Boolean> = MutableLiveData(false)
     val loadingData: LiveData<Boolean> = _loadingData
     private var lastSearch = ""
-
     fun searchImage(searchKey: String, imageType: String) {
         if (searchKey == lastSearch || searchKey.isEmpty()) return
         lastSearch = searchKey
@@ -53,7 +54,20 @@ class PixabayViewModel @Inject constructor(
         selectedImage.value = it
     }
 
-    fun saveThem(value: Boolean) {
+    fun saveTheme(themeIsDark: Boolean) {
+        viewModelScope.launch {
+            fruxThemeUseCase.saveTheme(themeIsDark)
+        }
+    }
 
+    fun getTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val theme = fruxThemeUseCase.getTheme()
+            if (theme == null) {
+                currentThemIsDark.value = true
+            } else {
+                currentThemIsDark.value = theme.themeIsDark
+            }
+        }
     }
 }

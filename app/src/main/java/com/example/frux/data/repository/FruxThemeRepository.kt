@@ -16,7 +16,11 @@ class FruxThemeRepository @Inject constructor(
     private val themeDao: ThemeDao,
     private val safeCallDelegate: SafeCallDelegateImpl
 ) : IBaseRepository.FruxThemeRepository(), SafeCallDelegate by safeCallDelegate {
-    override suspend fun saveImage(themeIsDark: Boolean) {
-        themeDao.insertTheme(Theme(themeIsDark = themeIsDark))
+    override suspend fun saveTheme(themeIsDark: Boolean) {
+        themeDao.insertOrUpdateTheme(themeIsDark)
+    }
+
+    override suspend fun getTheme(): Theme? {
+        return themeDao.getTheme()
     }
 }

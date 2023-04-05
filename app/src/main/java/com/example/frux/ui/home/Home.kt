@@ -53,6 +53,7 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     if (errorState.value == true) {
         Dialog(pixabayViewModel, pixabayViewModel.getErrorMessage())
     }
+    pixabayViewModel.getTheme()
 }
 
 @Composable
@@ -103,7 +104,7 @@ private fun SearchPage(
         Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)) {
             ThemeToggleButton(pixabayViewModel.currentThemIsDark.value) {
                 pixabayViewModel.currentThemIsDark.value = !pixabayViewModel.currentThemIsDark.value
-                pixabayViewModel.saveThem(pixabayViewModel.currentThemIsDark.value)
+                pixabayViewModel.saveTheme(pixabayViewModel.currentThemIsDark.value)
             }
         }
         SearchInput {
