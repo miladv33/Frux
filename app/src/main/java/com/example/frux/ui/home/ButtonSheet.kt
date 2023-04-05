@@ -14,6 +14,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
@@ -34,6 +36,18 @@ fun ButtonSheet(hit: Hit) {
         Box {
 
             val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
+            Image(
+                painter = rememberAsyncImagePainter(model = hit.largeImageURL),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(cardImageHeight)
+                    .zIndex(1f)
+                    .clip(
+                        Shapes.medium
+                    )
+            )
             if (rememberAsyncImagePainter.state is AsyncImagePainter.State.Loading) {
                 Box(
                     modifier = Modifier
@@ -43,17 +57,6 @@ fun ButtonSheet(hit: Hit) {
                     SimpleArcRotation()
                 }
             }
-            Image(
-                painter = rememberAsyncImagePainter(model = hit.largeImageURL),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cardImageHeight)
-                    .clip(
-                        Shapes.medium
-                    )
-            )
         }
         Spacer(modifier = Modifier.height(defaultMargin))
         Column(
