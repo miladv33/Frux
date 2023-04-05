@@ -2,7 +2,6 @@ package com.example.frux.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,14 +17,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
@@ -103,7 +99,6 @@ private fun SearchPage(
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("fruits", Type.PHOTO.type)
     }
-    val errorState = pixabayViewModel.getErrorDialogState().observeAsState()
     Column(horizontalAlignment = Alignment.End) {
         Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)) {
             ThemeToggleButton(pixabayViewModel.currentThemIsDark.value) {
@@ -228,6 +223,7 @@ fun ImageColumnList(imageUrls: List<Hit>, onClick: (previewURL: Hit) -> Unit) {
 private fun ImageItem(
     hit: Hit, onClick: (previewURL: Hit) -> Unit
 ) {
+
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(loadingHeight)
@@ -237,18 +233,11 @@ private fun ImageItem(
             modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.padding(defaultSpacing)) {
-                val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
-                if (rememberAsyncImagePainter.state is AsyncImagePainter.State.Loading) {
-                    LoadingImage()
-                }
-                Image(
-                    painter = rememberAsyncImagePainter,
-                    contentDescription = "Image from URL",
-                    modifier = Modifier
+                CustomImage(
+                    hit.previewURL, modifier = Modifier
                         .width(loadingImageSize)
                         .height(loadingImageSize)
-                        .clip(Shapes.medium),
-                    contentScale = ContentScale.Crop
+                        .clip(Shapes.medium)
                 )
             }
             Column(

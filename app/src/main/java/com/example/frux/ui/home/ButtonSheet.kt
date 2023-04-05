@@ -8,16 +8,19 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import coil.compose.AsyncImagePainter
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.frux.R
+import com.example.frux.data.enum.ImageLoading
 import com.example.frux.data.model.Hit
 import com.example.frux.ui.loading.SimpleArcRotation
 import com.example.frux.ui.theme.*
@@ -33,31 +36,15 @@ fun ButtonSheet(hit: Hit) {
             .fillMaxWidth()
             .clip(Shapes.medium)
     ) {
-        Box {
-
-            val rememberAsyncImagePainter = rememberAsyncImagePainter(model = hit.previewURL)
-            Image(
-                painter = rememberAsyncImagePainter(model = hit.largeImageURL),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(cardImageHeight)
-                    .zIndex(1f)
-                    .clip(
-                        Shapes.medium
-                    )
-            )
-            if (rememberAsyncImagePainter.state is AsyncImagePainter.State.Loading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(cardImageHeight)
-                ){
-                    SimpleArcRotation()
-                }
-            }
-        }
+        CustomImage(
+            hit.largeImageURL,
+            Modifier
+                .fillMaxWidth()
+                .height(cardImageHeight)
+                .clip(
+                    Shapes.medium
+                )
+        )
         Spacer(modifier = Modifier.height(defaultMargin))
         Column(
             modifier = Modifier.padding(defaultPadding)
@@ -110,4 +97,55 @@ fun ButtonSheet(hit: Hit) {
         }
     }
 
+}
+
+@Composable
+fun CustomImage(
+    imageUrl: String,
+    modifier: Modifier
+) {
+    val brokenImage = painterResource(id = R.drawable.ic_image_broken)
+    Box {
+        val imageState = remember {
+            mutableStateOf(ImageLoading.LOADING)
+        }
+        AsyncImage(
+            contentScale = ContentScale.Crop,
+            modifier = modifier,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = "",
+            onLoading = {
+                imageState.value = ImageLoading.LOADING
+            },
+            onError = {
+                imageState.value = ImageLoading.ERROR
+            },
+            onSuccess = {
+                imageState.value = ImageLoading.SUCCESS
+            }
+        )
+        if (imageState.value == ImageLoading.LOADING) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(cardImageHeight)
+            ) {
+                SimpleArcRotation()
+            }
+        }
+        if (imageState.value == ImageLoading.ERROR) {
+            Image(
+                painter = brokenImage, contentDescription = "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(cardImageHeight)
+                    .clip(
+                        Shapes.medium
+                    )
+            )
+        }
+    }
 }
