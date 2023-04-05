@@ -5,4 +5,5 @@
     <string name="dialogue_alert">Do you want to see more details?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="search">Type what you want to see</string>
 </resources>

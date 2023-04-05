@@ -19,9 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.frux.R
 import com.example.frux.data.model.Hit
 import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
@@ -109,7 +111,7 @@ private fun SearchPage(
         }
         SearchInput {
             keyboardController?.hide()
-            pixabayViewModel.searchImage(it, Type.PHOTO.type)
+            pixabayViewModel.searchImage(it.trimEnd(), Type.PHOTO.type)
         }
         Spacer(modifier = Modifier.height(defaultSpacing))
         images.value?.hits?.let {
@@ -175,6 +177,9 @@ fun SearchInput(
     ) {
         TextField(
             value = searchValue.value,
+             label = {
+                     Text(text = stringResource(R.string.search))
+             },
             onValueChange = {
                 searchValue.value = it
             },
