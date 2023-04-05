@@ -33,7 +33,7 @@ fun UserImage(hit: Hit) {
         modifier = Modifier
             .size(userImageSize)
             .clip(CircleShape)
-            .border(2.dp, Color.White, shape = CircleShape)
+            .border(2.dp, MaterialTheme.colors.primary, shape = CircleShape)
     )
 }
 
