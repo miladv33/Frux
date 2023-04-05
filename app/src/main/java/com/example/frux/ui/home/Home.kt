@@ -31,6 +31,7 @@ import com.example.frux.data.remote.Type
 import com.example.frux.presentation.PixabayViewModel
 import com.example.frux.ui.loading.ArcRotationAnimation
 import com.example.frux.ui.ModalBottomSheetDemo
+import com.example.frux.ui.error.Dialog
 import com.example.frux.ui.theme.*
 import kotlinx.coroutines.*
 
@@ -52,6 +53,10 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
     }) {
         SearchPage(keyboardController, pixabayViewModel, bottomSheetState)
     }
+    val errorState = pixabayViewModel.getErrorDialogState().observeAsState()
+    if (errorState.value == true) {
+        Dialog(pixabayViewModel, pixabayViewModel.getErrorMessage())
+    }
 }
 
 @Composable
@@ -59,7 +64,8 @@ fun ThemeToggleButton(
     darkTheme: Boolean,
     onThemeChanged: (Boolean) -> Unit
 ) {
-    Switch(modifier = Modifier.size(defaultIconSize),
+    Switch(
+        modifier = Modifier.size(defaultIconSize),
         checked = darkTheme,
         onCheckedChange = { onThemeChanged(it) },
         colors = SwitchDefaults.colors(
@@ -68,6 +74,7 @@ fun ThemeToggleButton(
         )
     )
 }
+
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -96,8 +103,9 @@ private fun SearchPage(
     LaunchedEffect(Unit) {
         pixabayViewModel.searchImage("fruits", Type.PHOTO.type)
     }
+    val errorState = pixabayViewModel.getErrorDialogState().observeAsState()
     Column(horizontalAlignment = Alignment.End) {
-        Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)){
+        Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)) {
             ThemeToggleButton(pixabayViewModel.currentThemIsDark.value) {
                 pixabayViewModel.currentThemIsDark.value = !pixabayViewModel.currentThemIsDark.value
             }
@@ -112,7 +120,9 @@ private fun SearchPage(
                 selectedHit.value = hit
                 dialogueState.value = true
             }
-        }.run {
+        }
+        val loadingData = pixabayViewModel.loadingData.observeAsState()
+        if (loadingData.value == true) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()

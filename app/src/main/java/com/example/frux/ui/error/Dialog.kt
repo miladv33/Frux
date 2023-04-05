@@ -1,4 +1,4 @@
-package com.example.frux.utilities
+package com.example.frux.ui.error
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,7 +36,8 @@ fun Dialog(mainViewModel: ShowErrorDelegate, message: String) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = message
+                    text = message,
+                    color = MaterialTheme.colors.primary
                 )
             },
             buttons = {

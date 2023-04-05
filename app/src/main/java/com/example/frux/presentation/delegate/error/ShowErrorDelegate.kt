@@ -10,5 +10,11 @@ interface ShowErrorDelegate {
 
     fun hideDialog()
 
-    fun getErrorDialogState():LiveData<Boolean>
+    fun getErrorDialogState(): LiveData<Boolean>
+
+    fun getErrorMessage(): String
+
+    fun isErrorState(): Boolean
+
+    fun setErrorState(boolean: Boolean)
 }
