@@ -32,7 +32,7 @@ fun ButtonSheet(hit: Hit) {
 
     Column(
         modifier = Modifier
-            .wrapContentHeight()
+            .wrapContentHeight(unbounded = true)
             .fillMaxWidth()
             .clip(Shapes.medium)
     ) {
@@ -40,7 +40,7 @@ fun ButtonSheet(hit: Hit) {
             hit.largeImageURL,
             Modifier
                 .fillMaxWidth()
-                .height(cardImageHeight)
+                .height(ButtonSheetHeight)
                 .clip(
                     Shapes.medium
                 )
