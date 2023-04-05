@@ -27,8 +27,8 @@ import com.example.frux.ui.theme.*
 
 @Composable
 fun ButtonSheet(hit: Hit) {
-    val downloadIcon = painterResource(id = com.example.frux.R.drawable.ic__download)
-    val commentIcon = painterResource(id = com.example.frux.R.drawable.ic_comment)
+    val downloadIcon = painterResource(id = R.drawable.ic__download)
+    val commentIcon = painterResource(id = R.drawable.ic_comment)
 
     Column(
         modifier = Modifier

@@ -3,6 +3,7 @@ package com.example.frux.di
 import android.content.Context
 import com.example.frux.data.local.HitDatabase
 import com.example.frux.data.local.dao.HitDao
+import com.example.frux.data.local.dao.ThemeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,12 @@ object DatabaseModule {
     @Singleton
     fun provideHitDAO(hitDatabase: HitDatabase): HitDao {
         return hitDatabase.hitDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideThemeDAO(hitDatabase: HitDatabase): ThemeDao {
+        return hitDatabase.themDao()
     }
 
 }

@@ -9,18 +9,17 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.impl.WorkDatabaseMigrations.*
 import com.example.frux.data.local.dao.HitDao
+import com.example.frux.data.local.dao.ThemeDao
 import com.example.frux.data.model.Hit
+import com.example.frux.data.model.Theme
 import com.example.frux.utilities.Constants.DATABASE_NAME
 
-@Database(entities = [Hit::class], version = 2, exportSchema = false)
+@Database(entities = [Hit::class, Theme::class], version = 3, exportSchema = false)
 abstract class HitDatabase : RoomDatabase() {
     // Declare the DAOs that work with the database
     abstract fun hitDao(): HitDao
-    val MIGRATION_From_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-            database.execSQL("ALTER TABLE hits ADD COLUMN searchedKey TEXT DEFAULT NULL")
-        }
-    }
+    abstract fun themDao(): ThemeDao
+
 
     // Provide a singleton instance of the database using a companion object
     companion object {
@@ -38,7 +37,7 @@ abstract class HitDatabase : RoomDatabase() {
                     context.applicationContext,
                     HitDatabase::class.java,
                     DATABASE_NAME
-                ).addMigrations(MIGRATION_1_2)
+                ).addMigrations(MIGRATION_1_2).addMigrations(MIGRATION_2_3)
                     .build()
             }
             // Return the instance

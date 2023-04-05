@@ -41,4 +41,12 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         // Rename the new table to the original table name
         database.execSQL("ALTER TABLE hits_new RENAME TO hits")
     }
+
+}
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Create the new table for Theme entity
+        database.execSQL("CREATE TABLE IF NOT EXISTS `theme` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `theme_is_dark` INTEGER NOT NULL)")
+    }
 }

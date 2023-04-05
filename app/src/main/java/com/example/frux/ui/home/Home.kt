@@ -103,6 +103,7 @@ private fun SearchPage(
         Box(modifier = Modifier.padding(end = defaultSpacing, top = defaultSpacing)) {
             ThemeToggleButton(pixabayViewModel.currentThemIsDark.value) {
                 pixabayViewModel.currentThemIsDark.value = !pixabayViewModel.currentThemIsDark.value
+                pixabayViewModel.saveThem(pixabayViewModel.currentThemIsDark.value)
             }
         }
         SearchInput {

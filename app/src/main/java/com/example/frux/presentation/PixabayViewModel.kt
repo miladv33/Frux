@@ -53,7 +53,7 @@ class PixabayViewModel @Inject constructor(
         selectedImage.value = it
     }
 
-    fun showLoading() {
-        _loadingData.value = true
+    fun saveThem(value: Boolean) {
+
     }
 }
