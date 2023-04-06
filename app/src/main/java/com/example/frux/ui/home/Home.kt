@@ -43,9 +43,9 @@ fun Home(pixabayViewModel: PixabayViewModel = hiltViewModel()) {
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetDemo(bottomSheetState, {
-        pixabayViewModel.selectedImage.value?.let {
-            ButtonSheet(it)
-        }.run {
+        if (pixabayViewModel.selectedImage.value != null) {
+            ButtonSheet(pixabayViewModel.selectedImage.value!!)
+        } else {
             Box(modifier = Modifier.height(borderSize))
         }
     }) {
@@ -94,7 +94,7 @@ private fun SearchPage(
         mutableStateOf<Hit?>(null)
     }
     val showButtonSheet = remember {
-        mutableStateOf(false)
+        pixabayViewModel.bottomSheetIsShowing
     }
 
     val images = pixabayViewModel.pixabayImageLiveData.observeAsState()
@@ -145,8 +145,14 @@ private fun SearchPage(
 
     if (showButtonSheet.value) {
         selectedHit.value?.let { pixabayViewModel.setSelectedImage(it) }
+    }
+    if (pixabayViewModel.bottomSheetIsShowing.value) {
         coroutineScope.launch {
-            bottomSheetState.show()
+            bottomSheetState.animateTo(ModalBottomSheetValue.Expanded)
+        }
+    } else {
+        coroutineScope.launch {
+            bottomSheetState.hide()
         }
     }
     LaunchedEffect(bottomSheetState) {

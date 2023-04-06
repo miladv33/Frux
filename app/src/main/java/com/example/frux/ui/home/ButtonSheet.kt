@@ -34,16 +34,16 @@ fun ButtonSheet(hit: Hit) {
         modifier = Modifier
             .wrapContentHeight(unbounded = true)
             .fillMaxWidth()
-            .clip(Shapes.medium)
+//            .clip(Shapes.medium)
     ) {
         CustomImage(
             hit.largeImageURL,
             Modifier
                 .fillMaxWidth()
                 .height(ButtonSheetHeight)
-                .clip(
-                    Shapes.medium
-                )
+//                .clip(
+//                    Shapes.medium
+//                )
         )
         Spacer(modifier = Modifier.height(defaultMargin))
         Column(

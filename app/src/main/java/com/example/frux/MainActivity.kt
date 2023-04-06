@@ -36,4 +36,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        if (pixabayViewModel.bottomSheetIsShowing.value) {
+            pixabayViewModel.bottomSheetIsShowing.value = false
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

@@ -31,6 +31,7 @@ class PixabayViewModel @Inject constructor(
     private val _loadingData: MutableLiveData<Boolean> = MutableLiveData(false)
     val loadingData: LiveData<Boolean> = _loadingData
     private var lastSearch = ""
+    val bottomSheetIsShowing = mutableStateOf(false)
     fun searchImage(searchKey: String, imageType: String) {
         if (searchKey == lastSearch || searchKey.isEmpty()) return
         lastSearch = searchKey
