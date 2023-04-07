@@ -6,7 +6,7 @@ import okhttp3.Response
 
 class ApiKeyInterceptor(private val apiKey: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        try {
+        return try {
             val originalRequest: Request = chain.request()
             val originalUrl = originalRequest.url
             val modifiedUrl = originalUrl.newBuilder()
@@ -15,9 +15,9 @@ class ApiKeyInterceptor(private val apiKey: String) : Interceptor {
             val modifiedRequest = originalRequest.newBuilder()
                 .url(modifiedUrl)
                 .build()
-            return chain.proceed(modifiedRequest)
+            chain.proceed(modifiedRequest)
         } catch (e: Exception) {
-            return chain.proceed(chain.request())
+            chain.proceed(chain.request())
         }
     }
 }

@@ -82,9 +82,6 @@ dependencies {
     //robolectric
     testImplementation "org.robolectric:robolectric:$robolectric_version"
 
-    // testImplementation for pure JVM unit tests
-    testImplementation "org.jetbr ains.kotlinx:kotlinx-coroutines-test:$jetbrains_coroutines_test_version"
-
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     // GSON
@@ -136,4 +133,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     testImplementation 'org.mockito:mockito-inline:4.0.0'
     androidTestImplementation 'androidx.test:core:1.5.0'
+
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation "io.mockk:mockk:$mockkVersion"
+
 }
