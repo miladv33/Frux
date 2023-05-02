@@ -7,7 +7,7 @@ This is an Android image search app that allows users to search for images by en
 ### General
 - The project must be able to compile and run on Android 7.0 and higher
 - The app should follow the official Material Design guidelines
-- The main language must be Kotlin
+- The main language is Kotlin
 - The code is:
   - Organized
   - Efficient
